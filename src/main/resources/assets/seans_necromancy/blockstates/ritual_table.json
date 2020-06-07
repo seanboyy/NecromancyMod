@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "facing=north,side=left": {"model": "seans_necromancy:block/ritual_table"},
+    "facing=east,side=left": {"model": "seans_necromancy:block/ritual_table", "y": 90},
+    "facing=south,side=left": {"model": "seans_necromancy:block/ritual_table", "y": 180},
+    "facing=west,side=left": {"model": "seans_necromancy:block/ritual_table", "y": 270},
+    "facing=north,side=right": {"model": "seans_necromancy:block/ritual_table", "y": 180},
+    "facing=east,side=right": {"model": "seans_necromancy:block/ritual_table", "y":  270},
+    "facing=south,side=right": {"model": "seans_necromancy:block/ritual_table"},
+    "facing=west,side=right": {"model": "seans_necromancy:block/ritual_table", "y": 90}
+  }
+}

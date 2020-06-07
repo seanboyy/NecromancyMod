@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WWW",
+    "F#F",
+    "F F"
+  ],
+  "key": {
+    "W": {
+      "tag": "minecraft:planks"
+    },
+    "F": {
+      "tag": "minecraft:wooden_fences"
+    },
+    "#": {
+      "item": "minecraft:diamond"
+    }
+  },
+  "result": {
+    "item": "seans_necromancy:ritual_table"
+  }
+}
