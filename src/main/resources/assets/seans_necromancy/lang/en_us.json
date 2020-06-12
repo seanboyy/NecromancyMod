@@ -1,3 +1,13 @@
 {
-  "block.seans_necromancy.ritual_table": "Ritual Table"
+  "seans_necromancy:health": "Health",
+  "seans_necromancy:hostile": "Hostile",
+  "seans_necromancy:passive": "Passive",
+
+  "block.seans_necromancy.ritual_table": "Ritual Table",
+  "block.seans_necromancy.corpse_builder": "Corpse Builder",
+
+  "item.seans_necromancy.spirit_item": "Spirit",
+  "item.seans_necromancy.charged_diamond": "Charged Diamond",
+
+  "seans_necromancy.container.corpse_builder": "Build Corpse"
 }

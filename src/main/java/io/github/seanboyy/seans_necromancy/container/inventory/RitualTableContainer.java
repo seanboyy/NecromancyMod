@@ -1,15 +1,12 @@
-package io.github.seanboyy.seans_necromancy.objects.container.inventory;
+package io.github.seanboyy.seans_necromancy.container.inventory;
 
 import io.github.seanboyy.seans_necromancy.registry.ModBlocks;
 import io.github.seanboyy.seans_necromancy.registry.ModContainers;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.IWorldPosCallable;
-
-import javax.annotation.Nullable;
 
 public class RitualTableContainer extends Container {
     private final IWorldPosCallable worldPosCallable;

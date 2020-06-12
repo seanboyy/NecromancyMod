@@ -2,13 +2,13 @@ package io.github.seanboyy.seans_necromancy.util.enums;
 
 import net.minecraft.util.IStringSerializable;
 
-public enum RitualTableSide implements IStringSerializable {
+public enum LeftRightBlockSide implements IStringSerializable {
     LEFT("left"),
     RIGHT("right");
 
     private final String name;
 
-    RitualTableSide(String name) {
+    LeftRightBlockSide(String name) {
         this.name = name;
     }
 

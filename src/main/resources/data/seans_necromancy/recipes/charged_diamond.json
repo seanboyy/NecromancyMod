@@ -1,0 +1,10 @@
+{
+  "type": "seans_necromancy:charging",
+  "input": {
+    "item": "minecraft:diamond"
+  },
+  "output": {
+    "item": "seans_necromancy:charged_diamond"
+  },
+  "time": 20
+}

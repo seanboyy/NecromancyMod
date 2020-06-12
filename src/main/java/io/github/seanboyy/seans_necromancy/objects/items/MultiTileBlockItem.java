@@ -8,8 +8,8 @@ import net.minecraft.item.Item;
 
 import static io.github.seanboyy.seans_necromancy.util.Constants.*;
 
-public class RitualTableItem extends BlockItem {
-    public RitualTableItem(Block blockIn, Item.Properties properties) {
+public class MultiTileBlockItem extends BlockItem {
+    public MultiTileBlockItem(Block blockIn, Item.Properties properties) {
         super(blockIn, properties);
     }
 
