@@ -5,14 +5,21 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.HorizontalBlock;
+import net.minecraft.block.material.PushReaction;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.pathfinding.PathType;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 
@@ -70,7 +77,53 @@ public abstract class LeftRightDoubleBlock extends HorizontalBlock {
     }
 
     public static Direction getDirectionToOtherFromBlockState(BlockState blockState) {
-        Direction direction = blockState.get(HORIZONTAL_FACING);
-        return blockState.get(SIDE) == LeftRightBlockSide.RIGHT ? direction.rotateYCCW() : direction.rotateY();
+        return getDirectionToOther(blockState.get(SIDE), blockState.get(HORIZONTAL_FACING));
+    }
+
+    @Override
+    public boolean hasTileEntity(BlockState state) {
+        return state.get(SIDE) == LeftRightBlockSide.LEFT;
+    }
+
+    @Override
+    public PushReaction getPushReaction(BlockState state) {
+        return PushReaction.IGNORE;
+    }
+
+    @Override
+    public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
+        return false;
+    }
+
+    @Override
+    public boolean isTransparent(BlockState state) {
+        return true;
+    }
+
+    public abstract void tryOpenContainer(World worldIn, BlockPos pos, PlayerEntity playerIn);
+
+    public abstract void tryDropItems(TileEntity tileEntityIn, World worldIn, BlockPos pos);
+
+    @Override
+    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+        if(state.get(SIDE) == LeftRightBlockSide.RIGHT) {
+            pos = pos.offset(getDirectionToOther(LeftRightBlockSide.RIGHT, state.get(HORIZONTAL_FACING)));
+        }
+        if(!worldIn.isRemote) {
+            tryOpenContainer(worldIn, pos, player);
+        }
+        return ActionResultType.SUCCESS;
+    }
+
+    @Override
+    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+        if(state.get(SIDE) == LeftRightBlockSide.RIGHT) {
+            pos = pos.offset(getDirectionToOther(LeftRightBlockSide.RIGHT, state.get(HORIZONTAL_FACING)));
+        }
+        if(state.getBlock() != newState.getBlock()) {
+            TileEntity tileEntity = worldIn.getTileEntity(pos);
+            tryDropItems(tileEntity, worldIn, pos);
+        }
+        super.onReplaced(state, worldIn, pos, newState, isMoving);
     }
 }

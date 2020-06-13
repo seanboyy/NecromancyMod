@@ -1,6 +1,7 @@
 package io.github.seanboyy.seans_necromancy.util;
 
 import io.github.seanboyy.seans_necromancy.Necromancy;
+import io.github.seanboyy.seans_necromancy.client.gui.inventory.ChargerScreen;
 import io.github.seanboyy.seans_necromancy.client.gui.inventory.CorpseBuilderScreen;
 import io.github.seanboyy.seans_necromancy.registry.ModBlocks;
 import io.github.seanboyy.seans_necromancy.registry.ModContainers;
@@ -18,5 +19,6 @@ public class ClientEventBusSubscriber {
     public static void clientSetup(final FMLClientSetupEvent event) {
         ScreenManager.registerFactory(ModContainers.CORPSE_BUILDER_CONTAINER.get(), CorpseBuilderScreen::new);
         RenderTypeLookup.setRenderLayer(ModBlocks.CORPSE_BUILDER.get(), RenderType.getCutout());
+        ScreenManager.registerFactory(ModContainers.CHARGER_CONTAINER.get(), ChargerScreen::new);
     }
 }

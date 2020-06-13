@@ -42,12 +42,12 @@ public class CorpseBuilderScreen extends ContainerScreen<CorpseBuilderContainer>
         int zombieTime = this.container.getZombieTime();
         if(skeletonTime > 0) {
             int j1 = (int)(32F * (1F - skeletonTime / 600F));
-            if(j1 > 0) this.blit(i + 80, j + 37, 176, 4, 16, j1);
+            if(j1 > 0) this.blit(i + 80, j + 16, 176, 4, 16, j1);
         }
         if(zombieTime > 0) {
-            this.blit(i + 80, j + 37, 176, 4, 16, 32);
+            this.blit(i + 80, j + 16, 176, 4, 16, 32);
             int j1 = (int)(32F * (1F - zombieTime / 600F));
-            if(j1 > 0) this.blit(i + 80, j + 37, 176, 36, 16, j1);
+            if(j1 > 0) this.blit(i + 80, j + 16, 176, 36, 16, j1);
         }
     }
 }

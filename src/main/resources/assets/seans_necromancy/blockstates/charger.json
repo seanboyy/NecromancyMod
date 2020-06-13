@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": {"model": "seans_necromancy:block/charger"},
+    "facing=west": {"model": "seans_necromancy:block/charger", "y": 270},
+    "facing=south": {"model": "seans_necromancy:block/charger", "y": 180},
+    "facing=east": {"model": "seans_necromancy:block/charger", "y": 90}
+  }
+}

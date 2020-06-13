@@ -143,10 +143,16 @@ public class CorpseBuilderTileEntity extends LockableTileEntity implements ISide
     public void tick() {
         ItemStack corpseStack = this.corpseMaterialStacks.get(3);
 
-        if(corpseStack.getItem() == ModItems.SKELETON.get()) this.skeletonStage = 6;
+        if(corpseStack.getItem() == ModItems.SKELETON.get()){
+            this.skeletonStage = 6;
+        }
         else if(corpseStack.getItem() == ModItems.ZOMBIE.get()) {
             this.skeletonStage = 6;
             this.zombieStage = 6;
+        }
+        if(corpseStack.isEmpty() || corpseStack.getCount() < 1) {
+            if(skeletonStage == 6) skeletonStage = 0;
+            if(zombieStage == 6) zombieStage = 0;
         }
         ItemStack fuelStack = this.corpseMaterialStacks.get(2);
         if(fuelStack.getCount() <= 0 || fuelStack.isEmpty()) return;
@@ -164,6 +170,8 @@ public class CorpseBuilderTileEntity extends LockableTileEntity implements ISide
                 this.corpseMaterialStacks.set(2, fuelStack);
                 bones.shrink(10);
                 this.corpseMaterialStacks.set(0, bones);
+                ItemStack newCorpse = new ItemStack(ModItems.SKELETON.get(), 1);
+                this.corpseMaterialStacks.set(3, newCorpse);
             }
             if (!this.canStartAssembleZombie() && this.skeletonStage == 6) {
                 //DO SOMETHING NO ZOMBIE
@@ -172,6 +180,7 @@ public class CorpseBuilderTileEntity extends LockableTileEntity implements ISide
                     LightningBoltEntity lightningBolt = new LightningBoltEntity(worldIn, this.pos.getX(), this.pos.getY() + 1D, this.pos.getZ(), false);
                     ((ServerWorld) worldIn).addLightningBolt(lightningBolt);
                 }
+                this.skeletonStage = 0;
             }
         } else if(flag) {
             this.assemblyTimeSkeleton = 600;
@@ -185,11 +194,15 @@ public class CorpseBuilderTileEntity extends LockableTileEntity implements ISide
                 this.corpseMaterialStacks.set(2, fuelStack);
                 flesh.shrink(10);
                 this.corpseMaterialStacks.set(1, flesh);
+                ItemStack newCorpse = new ItemStack(ModItems.ZOMBIE.get(), 1);
+                this.corpseMaterialStacks.set(3, newCorpse);
                 World worldIn = this.getWorld();
                 if(worldIn instanceof ServerWorld) {
                     LightningBoltEntity lightningBolt = new LightningBoltEntity(worldIn, this.pos.getX(), this.pos.getY() + 1D, this.pos.getZ(), false);
                     ((ServerWorld)worldIn).addLightningBolt(lightningBolt);
                 }
+                this.zombieStage = 0;
+                this.skeletonStage = 0;
             }
             //DO SOMETHING WHEN ZOMBIE IS DONE
         } else if(flag1) {
@@ -214,7 +227,7 @@ public class CorpseBuilderTileEntity extends LockableTileEntity implements ISide
     private boolean canStartAssembleSkeleton() {
         ItemStack itemStack = this.corpseMaterialStacks.get(0);
         ItemStack itemStack1 = this.corpseMaterialStacks.get(3);
-        if(!itemStack1.isEmpty() || itemStack1.getCount() < 1) return false;
+        if(!itemStack1.isEmpty() || itemStack1.getCount() >= 1) return false;
         if(itemStack.isEmpty() || itemStack.getCount() < 10) return false;
         return this.skeletonStage == 0;
     }
@@ -222,22 +235,22 @@ public class CorpseBuilderTileEntity extends LockableTileEntity implements ISide
     private boolean canContinueAssembleSkeleton() {
         ItemStack itemStack = this.corpseMaterialStacks.get(0);
         ItemStack itemStack1 = this.corpseMaterialStacks.get(3);
-        if(!itemStack1.isEmpty() || itemStack1.getCount() < 1) return false;
+        if(!itemStack1.isEmpty() || itemStack1.getCount() >= 1) return false;
         return !itemStack.isEmpty() && itemStack.getCount() >= 10;
     }
 
     private boolean canStartAssembleZombie() {
         ItemStack itemStack = this.corpseMaterialStacks.get(1);
         ItemStack itemStack1 = this.corpseMaterialStacks.get(3);
-        if(!itemStack1.isEmpty() || itemStack1.getCount() < 1 || itemStack1.getItem() != ModItems.SKELETON.get()) return false;
+        if(itemStack1.isEmpty() || itemStack1.getCount() < 1 || itemStack1.getItem() != ModItems.SKELETON.get()) return false;
         if(itemStack.isEmpty() || itemStack.getCount() < 10) return false;
-        return this.zombieStage == 0 && this.skeletonStage == 6;
+        return this.zombieStage == 0 && (this.skeletonStage == 6 || itemStack.getItem() == ModItems.SKELETON.get());
     }
 
     private boolean canContinueAssembleZombie() {
         ItemStack itemStack = this.corpseMaterialStacks.get(1);
         ItemStack itemStack1 = this.corpseMaterialStacks.get(3);
-        if(!itemStack1.isEmpty() || itemStack1.getCount() < 1 || itemStack1.getItem() != ModItems.SKELETON.get()) return false;
+        if(itemStack1.isEmpty() || itemStack1.getCount() < 1 || itemStack1.getItem() != ModItems.SKELETON.get()) return false;
         return !itemStack.isEmpty() && itemStack.getCount() >= 10;
     }
 
@@ -305,7 +318,7 @@ public class CorpseBuilderTileEntity extends LockableTileEntity implements ISide
         return compound;
     }
 
-    LazyOptional<? extends IItemHandler>[] handlers = SidedInvWrapper.create(this, Direction.UP, Direction.NORTH);
+    LazyOptional<? extends IItemHandler>[] handlers = SidedInvWrapper.create(this, Direction.UP, Direction.DOWN);
 
     @Nullable
     @Override

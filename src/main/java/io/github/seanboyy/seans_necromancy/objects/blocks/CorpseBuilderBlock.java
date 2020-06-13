@@ -5,9 +5,8 @@ import io.github.seanboyy.seans_necromancy.objects.tileentities.CorpseBuilderTil
 import io.github.seanboyy.seans_necromancy.registry.ModTileEntities;
 import io.github.seanboyy.seans_necromancy.util.enums.LeftRightBlockSide;
 import net.minecraft.block.*;
-import net.minecraft.block.material.PushReaction;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.pathfinding.PathType;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
@@ -61,31 +60,19 @@ public class CorpseBuilderBlock extends LeftRightDoubleBlock {
         this.setDefaultState(this.stateContainer.getBaseState().with(SIDE, LeftRightBlockSide.LEFT).with(SKELETON_LEVEL, 0).with(FLESH_LEVEL, 0));
     }
 
-    /*
     @Override
-    public BlockRenderType getRenderType(BlockState state) {
-        return BlockRenderType.MODEL;
-    }
-
-     */
-
-    @Override
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        if(state.get(SIDE) == LeftRightBlockSide.RIGHT) {
-            pos = pos.offset(getDirectionToOther(LeftRightBlockSide.RIGHT, state.get(HORIZONTAL_FACING)));
+    public void tryOpenContainer(World worldIn, BlockPos pos, PlayerEntity playerIn) {
+        TileEntity tileEntity = worldIn.getTileEntity(pos);
+        if(tileEntity instanceof CorpseBuilderTileEntity) {
+            playerIn.openContainer((CorpseBuilderTileEntity)tileEntity);
         }
-        if(!worldIn.isRemote) {
-            TileEntity tileEntity = worldIn.getTileEntity(pos);
-            if(tileEntity instanceof CorpseBuilderTileEntity) {
-                player.openContainer((CorpseBuilderTileEntity)tileEntity);
-            }
-        }
-        return ActionResultType.SUCCESS;
     }
 
     @Override
-    public boolean hasTileEntity(BlockState state) {
-        return state.get(SIDE) == LeftRightBlockSide.LEFT;
+    public void tryDropItems(TileEntity tileEntityIn, World worldIn, BlockPos pos) {
+        if(tileEntityIn instanceof CorpseBuilderTileEntity) {
+            InventoryHelper.dropInventoryItems(worldIn, pos, (CorpseBuilderTileEntity)tileEntityIn);
+        }
     }
 
     @Nullable
@@ -98,16 +85,6 @@ public class CorpseBuilderBlock extends LeftRightDoubleBlock {
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
         super.fillStateContainer(builder);
         builder.add(SKELETON_LEVEL, FLESH_LEVEL);
-    }
-
-    @Override
-    public PushReaction getPushReaction(BlockState state) {
-        return PushReaction.IGNORE;
-    }
-
-    @Override
-    public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
-        return false;
     }
 
     @Override
@@ -125,27 +102,4 @@ public class CorpseBuilderBlock extends LeftRightDoubleBlock {
                 return TABLE_RIGHT_NS;
         }
     }
-
-    @Override
-    public boolean isTransparent(BlockState state) {
-        return true;
-    }
-
-    /*
-    @Override
-    public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
-        super.tick(state, worldIn, pos, rand);
-        if(!worldIn.isAreaLoaded(pos, 1)) return;
-        if(state.get(SIDE) == LeftRightBlockSide.RIGHT) {
-            pos = pos.offset(getDirectionToOther(LeftRightBlockSide.RIGHT, state.get(HORIZONTAL_FACING)));
-        }
-        if(worldIn.getTileEntity(pos) instanceof CorpseBuilderTileEntity) {
-            CorpseBuilderTileEntity tileEntity = (CorpseBuilderTileEntity)worldIn.getTileEntity(pos);
-            assert tileEntity != null;
-            if(tileEntity.data.get(3) != state.get(SKELETON_LEVEL) || tileEntity.data.get(4) != state.get(FLESH_LEVEL)) {
-                worldIn.setBlockState(pos, state.with(SKELETON_LEVEL, tileEntity.data.get(3)).with(FLESH_LEVEL, tileEntity.data.get(4)), SEND_TO_CLIENT | BLOCK_UPDATE);
-            }
-        }
-    }
-     */
 }

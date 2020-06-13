@@ -79,8 +79,8 @@ public class CorpseBuilderContainer extends Container {
         if(slot != null && slot.getHasStack()) {
             ItemStack itemStack1 = slot.getStack();
             itemStack = itemStack1.copy();
-            if(index < 3) {
-                if(!this.mergeItemStack(itemStack1, 3, this.inventorySlots.size(), true)) return ItemStack.EMPTY;
+            if(index < 4) {
+                if(!this.mergeItemStack(itemStack1, 4, this.inventorySlots.size(), true)) return ItemStack.EMPTY;
             } else {
                 if(FuelSlot.isValidAssemblyFuel(itemStack)) {
                     if(!this.mergeItemStack(itemStack1, 2, 3, false)) return ItemStack.EMPTY;
@@ -90,6 +90,9 @@ public class CorpseBuilderContainer extends Container {
                 }
                 else if(BoneSlot.isBone(itemStack)) {
                     if(!this.mergeItemStack(itemStack1, 0, 1, false)) return ItemStack.EMPTY;
+                }
+                else if(CorpseSlot.isCorpse(itemStack)) {
+                    if(!this.mergeItemStack(itemStack1, 3, 4, false)) return ItemStack.EMPTY;
                 }
                 else return ItemStack.EMPTY;
             }

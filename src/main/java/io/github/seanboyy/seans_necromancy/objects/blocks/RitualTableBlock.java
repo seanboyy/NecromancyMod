@@ -1,11 +1,11 @@
 package io.github.seanboyy.seans_necromancy.objects.blocks;
 
+import io.github.seanboyy.seans_necromancy.objects.tileentities.RitualTableTileEntity;
 import io.github.seanboyy.seans_necromancy.registry.ModTileEntities;
 import io.github.seanboyy.seans_necromancy.util.enums.LeftRightBlockSide;
 import net.minecraft.block.*;
-import net.minecraft.block.material.PushReaction;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.pathfinding.PathType;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
@@ -49,35 +49,24 @@ public class RitualTableBlock extends LeftRightDoubleBlock {
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        if(state.get(SIDE) == LeftRightBlockSide.RIGHT) {
-            pos = pos.offset(getDirectionToOther(LeftRightBlockSide.RIGHT, state.get(HORIZONTAL_FACING)));
+    public void tryOpenContainer(World worldIn, BlockPos pos, PlayerEntity playerIn) {
+        TileEntity tileEntity = worldIn.getTileEntity(pos);
+        if(tileEntity instanceof RitualTableTileEntity) {
+            playerIn.openContainer((RitualTableTileEntity)tileEntity);
         }
-        if(!worldIn.isRemote) {
-            player.openContainer(state.getContainer(worldIn, pos));
-        }
-        return ActionResultType.SUCCESS;
     }
 
     @Override
-    public boolean hasTileEntity(BlockState state) {
-        return state.get(SIDE) == LeftRightBlockSide.LEFT;
+    public void tryDropItems(TileEntity tileEntityIn, World worldIn, BlockPos pos) {
+        if(tileEntityIn instanceof RitualTableTileEntity) {
+            InventoryHelper.dropInventoryItems(worldIn, pos, (RitualTableTileEntity)tileEntityIn);
+        }
     }
 
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return ModTileEntities.RITUAL_TABLE_TILE_ENTITY.get().create();
-    }
-
-    @Override
-    public PushReaction getPushReaction(BlockState state) {
-        return PushReaction.IGNORE;
-    }
-
-    @Override
-    public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
-        return false;
     }
 
     @Override

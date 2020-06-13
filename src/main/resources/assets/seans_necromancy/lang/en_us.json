@@ -5,9 +5,13 @@
 
   "block.seans_necromancy.ritual_table": "Ritual Table",
   "block.seans_necromancy.corpse_builder": "Corpse Builder",
+  "block.seans_necromancy.charger": "Charger",
 
   "item.seans_necromancy.spirit_item": "Spirit",
   "item.seans_necromancy.charged_diamond": "Charged Diamond",
+  "item.seans_necromancy.skeleton": "Skeleton",
+  "item.seans_necromancy.zombie": "Zombie",
 
-  "seans_necromancy.container.corpse_builder": "Build Corpse"
+  "seans_necromancy.container.corpse_builder": "Build Corpse",
+  "seans_necromancy.container.charging": "Charge Items"
 }

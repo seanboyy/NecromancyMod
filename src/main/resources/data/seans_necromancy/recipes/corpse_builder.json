@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    "SDS"
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:stone"
+    },
+    "D": {
+      "item": "seans_necromancy:charged_diamond"
+    }
+  },
+  "result": {
+    "item": "seans_necromancy:corpse_builder"
+  }
+}
