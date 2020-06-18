@@ -15,6 +15,10 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.IBooleanFunction;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
@@ -22,6 +26,15 @@ import javax.annotation.Nullable;
 
 @SuppressWarnings("deprecation")
 public class ChargerBlock extends HorizontalBlock {
+    private static final VoxelShape BOX = Block.makeCuboidShape(0, 0, 0, 16, 16, 16);
+    private static final VoxelShape INSIDE_N = Block.makeCuboidShape(6, 6, 0, 10, 10, 8);
+    private static final VoxelShape INSIDE_E = Block.makeCuboidShape(8, 6, 6, 16, 10, 10);
+    private static final VoxelShape INSIDE_S = Block.makeCuboidShape(6, 6, 8, 10, 10, 16);
+    private static final VoxelShape INSIDE_W = Block.makeCuboidShape(0, 6, 6, 8, 10, 10);
+    private static final VoxelShape SHAPE_N = VoxelShapes.combineAndSimplify(BOX, INSIDE_N, IBooleanFunction.ONLY_FIRST);
+    private static final VoxelShape SHAPE_W = VoxelShapes.combineAndSimplify(BOX, INSIDE_W, IBooleanFunction.ONLY_FIRST);
+    private static final VoxelShape SHAPE_S = VoxelShapes.combineAndSimplify(BOX, INSIDE_S, IBooleanFunction.ONLY_FIRST);
+    private static final VoxelShape SHAPE_E = VoxelShapes.combineAndSimplify(BOX, INSIDE_E, IBooleanFunction.ONLY_FIRST);
 
     public ChargerBlock(Properties builder) {
         super(builder);
@@ -71,5 +84,21 @@ public class ChargerBlock extends HorizontalBlock {
             }
         }
         super.onReplaced(state, worldIn, pos, newState, isMoving);
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        Direction facing = state.get(HORIZONTAL_FACING);
+        switch(facing) {
+            case EAST:
+                return SHAPE_E;
+            case WEST:
+                return SHAPE_W;
+            case SOUTH:
+                return SHAPE_S;
+            case NORTH:
+            default:
+                return SHAPE_N;
+        }
     }
 }
