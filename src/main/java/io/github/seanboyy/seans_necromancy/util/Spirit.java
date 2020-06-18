@@ -31,6 +31,7 @@ public class Spirit {
                 "name='" + name + '\'' +
                 ", health=" + health +
                 ", type='" + type + '\'' +
+                ", displayName=" + displayName + '\'' +
                 '}';
     }
 

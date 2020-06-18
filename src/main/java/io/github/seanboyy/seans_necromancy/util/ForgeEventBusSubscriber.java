@@ -31,7 +31,9 @@ public class ForgeEventBusSubscriber {
             if(!(event.getEntityLiving() instanceof MonsterEntity)) {
                 entityType = "passive";
             }
-            String displayName = event.getEntityLiving().getDisplayName().getFormattedText();
+            String displayName = event.getEntityLiving().getType().getTranslationKey();
+            //String displayName = ForgeRegistries.ENTITIES.getValue(ForgeRegistries.ENTITIES.getKey(event.getEntityLiving().getType())).getTranslationKey();
+            Necromancy.LOGGER.debug(displayName);
             ItemStack spirit = new ItemStack(ModItems.SPIRIT_ITEM.get(), 1);
             SpiritItemUtils.addAttributesToItemStack(spirit, entityName, entityHealth, entityType, displayName);
             ItemEntity itemEntity = new ItemEntity(worldIn, deathPos.getX(), deathPos.getY(), deathPos.getZ(), spirit);

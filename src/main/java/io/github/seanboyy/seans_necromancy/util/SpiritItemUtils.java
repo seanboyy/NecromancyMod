@@ -65,7 +65,7 @@ public class SpiritItemUtils {
     public static void addSpiritTooltip(ItemStack itemStackIn, List<ITextComponent> lores) {
         Spirit spiritAttributes = getAttributesFromItemStack(itemStackIn);
         if(spiritAttributes != null) {
-            lores.add(new StringTextComponent(spiritAttributes.getDisplayName()));
+            lores.add(new TranslationTextComponent(spiritAttributes.getDisplayName()));
             lores.add(new TranslationTextComponent("seans_necromancy:health").appendText(": " + spiritAttributes.getHealth()));
             switch(spiritAttributes.getType()) {
                 case "hostile":

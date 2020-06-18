@@ -1,5 +1,6 @@
 package io.github.seanboyy.seans_necromancy.container.inventory;
 
+import io.github.seanboyy.seans_necromancy.Necromancy;
 import io.github.seanboyy.seans_necromancy.registry.ModContainers;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -57,11 +58,13 @@ public class ChargerContainer extends Container {
 
     @OnlyIn(Dist.CLIENT)
     public int getChargeTime() {
+        this.detectAndSendChanges();
         return this.data.get(0);
     }
 
     @OnlyIn(Dist.CLIENT)
     public int getChargeTimeMax() {
+        this.detectAndSendChanges();
         return this.data.get(1);
     }
 
@@ -81,6 +84,11 @@ public class ChargerContainer extends Container {
                 if(!this.mergeItemStack(itemStack1, 2, this.inventorySlots.size(), true)) return ItemStack.EMPTY;
             } else {
                 if(!this.mergeItemStack(itemStack1, 0, 1, false)) return ItemStack.EMPTY;
+            }
+            if(itemStack1.isEmpty()) {
+                slot.putStack(ItemStack.EMPTY);
+            } else {
+                slot.onSlotChanged();
             }
         }
         return itemStack;

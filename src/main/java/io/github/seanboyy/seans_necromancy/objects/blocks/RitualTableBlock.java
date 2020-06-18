@@ -2,16 +2,12 @@ package io.github.seanboyy.seans_necromancy.objects.blocks;
 
 import io.github.seanboyy.seans_necromancy.objects.tileentities.RitualTableTileEntity;
 import io.github.seanboyy.seans_necromancy.registry.ModTileEntities;
-import io.github.seanboyy.seans_necromancy.util.enums.LeftRightBlockSide;
 import net.minecraft.block.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;

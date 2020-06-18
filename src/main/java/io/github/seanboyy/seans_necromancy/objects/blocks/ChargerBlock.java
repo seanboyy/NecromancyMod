@@ -20,6 +20,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
+@SuppressWarnings("deprecation")
 public class ChargerBlock extends HorizontalBlock {
 
     public ChargerBlock(Properties builder) {

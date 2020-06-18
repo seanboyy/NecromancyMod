@@ -27,6 +27,7 @@ import javax.annotation.Nullable;
 
 import static io.github.seanboyy.seans_necromancy.util.Constants.*;
 
+@SuppressWarnings("deprecation")
 public abstract class LeftRightDoubleBlock extends HorizontalBlock {
     public static final EnumProperty<LeftRightBlockSide> SIDE = EnumProperty.create("side", LeftRightBlockSide.class);
 
@@ -122,6 +123,7 @@ public abstract class LeftRightDoubleBlock extends HorizontalBlock {
         }
         if(state.getBlock() != newState.getBlock()) {
             TileEntity tileEntity = worldIn.getTileEntity(pos);
+            assert tileEntity != null;
             tryDropItems(tileEntity, worldIn, pos);
         }
         super.onReplaced(state, worldIn, pos, newState, isMoving);

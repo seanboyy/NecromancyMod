@@ -24,10 +24,9 @@ public class ChargerScreen extends ContainerScreen<ChargerContainer> {
         int j = (this.height - this.ySize) / 2;
         this.blit(i, j, 0, 0, this.xSize, this.ySize);
         int chargeTime = this.container.getChargeTime();
-        if(chargeTime > 0) {
-            int j1 = (int)(22F * (/*1F - */(float)chargeTime / (float)this.container.getChargeTimeMax()));
-            this.blit(i + 77, j + 35, 177, 0, j1, 17);
-        }
+        float f = this.container.getChargeTimeMax() != 0 ? this.container.getChargeTimeMax() : 1;
+        int j1 = (int)(22F * ((float)chargeTime / f));
+        this.blit(i + 77, j + 35, 177, 0, j1, 17);
     }
 
     @Override

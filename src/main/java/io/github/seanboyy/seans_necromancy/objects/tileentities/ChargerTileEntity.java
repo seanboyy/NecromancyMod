@@ -104,7 +104,7 @@ public class ChargerTileEntity extends LockableTileEntity implements ISidedInven
 
     @Override
     public int[] getSlotsForFace(Direction side) {
-        return side == Direction.UP ? SLOTS_FOR_UP : SLOTS_FOR_DOWN;
+        return side == Direction.UP ? SLOTS_FOR_DOWN : SLOTS_FOR_UP;
     }
 
     @Override
@@ -197,6 +197,10 @@ public class ChargerTileEntity extends LockableTileEntity implements ISidedInven
     public void tick() {
         boolean flag = this.isCharging();
         boolean flag1 = false;
+        if(this.items.get(0) == ItemStack.EMPTY){
+            this.chargeTime = 0;
+            return;
+        }
         assert this.world != null;
         if(!this.world.isRemote) {
             ItemStack itemStack = this.items.get(0);
